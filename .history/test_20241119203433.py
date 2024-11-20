@@ -124,7 +124,7 @@ def get_mails(account):
 
     if rv == "OK":
         for num in data[0].split():
-            (rv, data) = account.fetch(num, "(BODY[])")
+            (rv, data) = account.fetch(num, "(RFC822)")
             msg = email.message_from_string(data[0][1].decode("utf-8"))
 
             # walking through the email parts to find images

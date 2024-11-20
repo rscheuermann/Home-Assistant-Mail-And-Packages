@@ -378,7 +378,7 @@ async def test_email_search(mock_imap_search_error, caplog):
 
 @pytest.mark.asyncio
 async def test_email_fetch(mock_imap_fetch_error, caplog):
-    result = email_fetch(mock_imap_fetch_error, 1, "(BODY[])")
+    result = email_fetch(mock_imap_fetch_error, 1, "(RFC822)")
     assert result == ("BAD", "Invalid Email")
     assert "Error fetching emails:" in caplog.text
 

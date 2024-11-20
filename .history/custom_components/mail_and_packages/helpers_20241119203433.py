@@ -618,7 +618,7 @@ def email_search(
 
 
 def email_fetch(
-    account: Type[imaplib.IMAP4_SSL], num: int, parts: str = "(BODY[])"
+    account: Type[imaplib.IMAP4_SSL], num: int, parts: str = "(RFC822)"
 ) -> tuple:
     """Download specified email for parsing.
 
@@ -679,7 +679,7 @@ def get_mails(
     if server_response == "OK":
         _LOGGER.debug("Informed Delivery email found processing...")
         for num in data[0].split():
-            msg = email_fetch(account, num, "(BODY[])")[1]
+            msg = email_fetch(account, num, "(RFC822)")[1]
             for response_part in msg:
                 if isinstance(response_part, tuple):
                     msg = email.message_from_bytes(response_part[1])
@@ -1026,7 +1026,7 @@ def get_tracking(
 
     pattern = re.compile(rf"{the_format}")
     for i in mail_list:
-        data = email_fetch(account, i, "(BODY[])")[1]
+        data = email_fetch(account, i, "(RFC822)")[1]
         for response_part in data:
             if isinstance(response_part, tuple):
                 msg = email.message_from_bytes(response_part[1])
@@ -1080,7 +1080,7 @@ def find_text(sdata: Any, account: Type[imaplib.IMAP4_SSL], search_terms: list) 
     found = None
 
     for i in mail_list:
-        data = email_fetch(account, i, "(BODY[])")[1]
+        data = email_fetch(account, i, "(RFC822)")[1]
         for response_part in data:
             if isinstance(response_part, tuple):
                 msg = email.message_from_bytes(response_part[1])
@@ -1172,7 +1172,7 @@ def get_amazon_image(
     _LOGGER.debug("HTML Amazon emails found: %s", len(mail_list))
 
     for i in mail_list:
-        data = email_fetch(account, i, "(BODY[])")[1]
+        data = email_fetch(account, i, "(RFC822)")[1]
         for response_part in data:
             if isinstance(response_part, tuple):
                 msg = email.message_from_bytes(response_part[1])
@@ -1271,7 +1271,7 @@ def amazon_hub(account: Type[imaplib.IMAP4_SSL], fwds: Optional[str] = None) -> 
         id_list = sdata[0].split()
         _LOGGER.debug("Amazon hub emails found: %s", str(len(id_list)))
         for i in id_list:
-            data = email_fetch(account, i, "(BODY[])")[1]
+            data = email_fetch(account, i, "(RFC822)")[1]
             for response_part in data:
                 if isinstance(response_part, tuple):
                     msg = email.message_from_bytes(response_part[1])
@@ -1422,7 +1422,7 @@ def get_items(
             id_list = mail_ids.split()
             _LOGGER.debug("Amazon emails found: %s", str(len(id_list)))
             for i in id_list:
-                data = email_fetch(account, i, "(BODY[])")[1]
+                data = email_fetch(account, i, "(RFC822)")[1]
                 for response_part in data:
                     if isinstance(response_part, tuple):
                         msg = email.message_from_bytes(response_part[1])
